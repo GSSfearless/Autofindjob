@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Upload as UploadIcon, FileText, Briefcase, ArrowRight, Loader2, AlertCircle, TestTube } from "lucide-react";
+import { Upload as UploadIcon, FileText, Briefcase, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Header from "@/components/Header";
@@ -12,9 +12,6 @@ const Upload = () => {
   const [jdText, setJdText] = useState("");
   const navigate = useNavigate();
   const { uploadAndCreateSession, isLoading, error, clearError, isConnected } = useInterview();
-
-  // Mock模式标识
-  const isMockMode = true;
 
   const handleResumeDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -60,18 +57,6 @@ const Upload = () => {
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
       <Header />
       
-      {/* Mock模式标识 */}
-      {isMockMode && (
-        <div className="fixed top-20 right-4 z-50">
-          <Alert className="bg-yellow-50 border-yellow-200">
-            <TestTube className="h-4 w-4 text-yellow-600" />
-            <AlertDescription className="text-yellow-800 font-medium">
-              🧪 Mock测试模式 - 使用模拟数据
-            </AlertDescription>
-          </Alert>
-        </div>
-      )}
-      
       <main className="container mx-auto px-6 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -82,11 +67,6 @@ const Upload = () => {
             <p className="text-lg text-muted-foreground">
               上传你的简历和目标职位描述，AI将为你量身定制面试问题
             </p>
-            {isMockMode && (
-              <p className="text-sm text-yellow-600 mt-2">
-                💡 当前为测试模式，将使用模拟数据快速验证流程
-              </p>
-            )}
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-8">
