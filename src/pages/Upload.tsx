@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Upload as UploadIcon, FileText, Briefcase, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Upload as UploadIcon, FileText, Briefcase, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import Header from "@/components/Header";
+import { useInterview } from "@/hooks/useInterview";
 
 const Upload = () => {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [jdText, setJdText] = useState("");
+  const navigate = useNavigate();
+  const { uploadAndCreateSession, isLoading, error, clearError, isConnected } = useInterview();
 
   const handleResumeDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -23,7 +27,31 @@ const Upload = () => {
     }
   };
 
-  const canProceed = resumeFile && jdText.trim();
+  const canProceed = resumeFile && jdText.trim() && !isLoading && isConnected;
+
+  const handleProceed = async () => {
+    if (!resumeFile || !jdText.trim()) return;
+    
+    console.log('开始处理上传请求...');
+    console.log('文件:', resumeFile.name);
+    console.log('职位描述长度:', jdText.length);
+    
+    try {
+      clearError();
+      console.log('调用uploadAndCreateSession...');
+      await uploadAndCreateSession(resumeFile, jdText);
+      console.log('uploadAndCreateSession完成，准备导航到/interview');
+      
+      // 添加短暂延迟，确保session状态已更新
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      navigate('/interview');
+      console.log('导航完成');
+    } catch (err) {
+      console.error('上传失败:', err);
+      // 错误会通过useInterview hook处理
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
@@ -125,22 +153,50 @@ const Upload = () => {
             </Card>
           </div>
 
+          {/* Error Display */}
+          {error && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {/* Connection Status */}
+          {!isConnected && (
+            <Alert className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                后端服务连接中...请确保后端服务已启动
+              </AlertDescription>
+            </Alert>
+          )}
+
           {/* Action Buttons */}
           <div className="text-center">
             <Button
-              asChild
+              onClick={handleProceed}
               disabled={!canProceed}
               size="lg"
               className="group"
             >
-              <Link to="/interview">
-                开始AI面试
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 w-5 h-5 animate-spin" />
+                  处理中...
+                </>
+              ) : (
+                <>
+                  开始AI面试
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
             </Button>
             
             <p className="text-sm text-muted-foreground mt-4">
-              上传完成后，AI将分析你的背景并生成个性化面试问题
+              {isLoading 
+                ? 'AI正在分析你的背景并生成个性化面试问题...'
+                : '上传完成后，AI将分析你的背景并生成个性化面试问题'
+              }
             </p>
           </div>
         </div>

@@ -7,12 +7,47 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
 dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+backend_venv/
+
+# IDE
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -22,3 +57,127 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+interview_system.db
+
+# Uploads and temporary files
+uploads/
+backend/uploads/
+*.tmp
+*.temp
+
+# API Keys and sensitive data
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug files
+debug_errors.json
+debug_log.py
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# Project specific
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+!public/*.ico
+!public/*.svg
+!src/assets/*.png
+!src/assets/*.jpg
+!src/assets/*.jpeg
+!src/assets/*.gif
+!src/assets/*.svg
+
+# Test files
+test_*.html
+test_*.txt
+*.test.js
+*.test.ts
+*.test.jsx
+*.test.tsx
+
+# Build artifacts
+.next/
+.nuxt/
+.vuepress/dist
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.vscode-test
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
