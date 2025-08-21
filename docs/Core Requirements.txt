@@ -1,0 +1,31 @@
+Core Requirements
+1. Multi-Agent System
+Build at least 4 distinct agents:
+InterviewerAgent: Generates contextual questions
+TopicManagerAgent: Controls topic flow and depth
+EvaluatorAgent: Evaluates responses in real-time
+OrchestratorAgent: Coordinates all agents
+
+2. Key Features to Implement
+Parse resume and job description to understand context
+Generate relevant interview questions dynamically
+Manage topic transitions naturally
+Evaluate both candidate responses and interview quality
+Provide real-time feedback through modern React web interface
+Responsive and intuitive user experience with real-time updates
+
+3. Production Requirements
+Comprehensive error handling (API failures, timeouts)
+Structured logging with appropriate levels
+Performance metrics collection
+Type hints throughout
+Clean, maintainable code
+Integration with SiliconFlow API for all LLM operations
+
+4. Frontend Architecture Requirements
+Modern React-based user interface
+Real-time communication with backend (WebSocket/Server-Sent Events)
+Responsive design for desktop and mobile
+Component-based architecture with TypeScript
+State management for interview sessions
+File upload functionality for resume/job description

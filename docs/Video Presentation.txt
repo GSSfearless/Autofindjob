@@ -1,0 +1,40 @@
+## Follow-Up Video Presentation (After the Interview)
+
+### What Happens Next
+
+After the initial challenge, you'll receive an email asking you to:
+
+1. **Polish Your Solution** (2 hours max)
+    - Fix any bugs you noticed
+    - Add features you didn't have time for
+    - Improve code quality and documentation
+    - Add tests if possible
+2. **Record a Loom Video** (10-15 minutes)
+    - Walk through your architecture
+    - Demo the working system
+    - Explain your key design decisions
+    - Discuss improvements you made
+    - Share how you'd productionize it
+3. **Submit Within 48 Hours**
+    - GitHub repository with polished code
+    - Loom video link
+    - Brief written summary (optional)
+
+### Why We Do This
+
+- **Removes time pressure**: Show your best work
+- **Demonstrates communication**: Critical for senior roles
+- **Shows learning ability**: How you improve and iterate
+- **Reveals depth**: Time to explain complex decisions
+- **Assesses production thinking**: Real-world considerations
+
+### Tips for Your Video
+
+- Be concise and structured
+- Show enthusiasm for the problem
+- Explain trade-offs honestly
+- Demonstrate what you learned
+- Focus on interesting technical decisions
+- Don't apologize excessively for imperfections
+
+Good luck! Focus on demonstrating your skills rather than building a perfect system.

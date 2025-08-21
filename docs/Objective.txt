@@ -1,0 +1,11 @@
+Objective: Build a production-ready AI-powered mock interview system that conducts intelligent technical interviews
+Your Mission
+Design and implement a full-stack system that acts as an intelligent interview coach, conducting mock technical interviews based on candidate profiles and job requirements.
+
+Technical Stack:
+- Frontend: Modern React application with TypeScript for interactive user experience
+- Backend: Python-based multi-agent system with RESTful API
+- AI Integration: SiliconFlow API for all large language model operations
+- Real-time Communication: WebSocket or Server-Sent Events for live interview sessions
+
+The system should provide an intuitive web interface where users can upload resumes, input job descriptions, and engage in realistic mock interviews with AI-powered feedback and evaluation. 

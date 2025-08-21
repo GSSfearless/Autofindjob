@@ -1,0 +1,39 @@
+Senior Backend Engineer - AI Platform Team
+
+We are seeking a Senior Backend Engineer to join our AI Platform Team at TechCorp, a leading technology company focused on developing cutting-edge AI solutions.
+
+Position: Senior Backend Engineer
+Department: AI Platform Team
+Location: San Francisco, CA / Remote
+Experience Level: 5+ years
+
+Key Responsibilities:
+• Design and implement scalable backend systems for AI/ML applications
+• Build and maintain RESTful APIs and microservices architecture
+• Work with large-scale data processing pipelines and real-time systems
+• Collaborate with ML engineers to deploy and monitor AI models in production
+• Ensure high availability, performance, and security of backend services
+• Lead technical discussions and mentor junior developers
+
+Required Skills:
+• 5+ years of backend development experience
+• Strong proficiency in Python and/or Go
+• Experience with cloud platforms (AWS, GCP, or Azure)
+• Knowledge of databases (PostgreSQL, MongoDB, Redis)
+• Experience with containerization (Docker, Kubernetes)
+• Understanding of microservices architecture and API design
+• Familiarity with CI/CD pipelines and DevOps practices
+
+Nice to Have:
+• Experience with ML/AI model deployment and MLOps
+• Knowledge of message queues (RabbitMQ, Apache Kafka)
+• Experience with monitoring tools (Prometheus, Grafana)
+• Understanding of data engineering concepts
+• Previous experience in high-growth startup environment
+
+What We Offer:
+• Competitive salary and equity package
+• Comprehensive health benefits
+• Flexible work arrangements
+• Professional development opportunities
+• Work with cutting-edge AI technology
