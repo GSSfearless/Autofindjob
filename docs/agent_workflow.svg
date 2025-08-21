@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; fill: #333; }
+      .subtitle { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #555; }
+      .text { font-family: Arial, sans-serif; font-size: 14px; fill: #333; }
+      .small-text { font-family: Arial, sans-serif; font-size: 12px; fill: #666; }
+      .orchestrator { fill: #e3f2fd; stroke: #1976d2; stroke-width: 2; }
+      .interviewer { fill: #f3e5f5; stroke: #7b1fa2; stroke-width: 2; }
+      .topic-manager { fill: #e8f5e8; stroke: #388e3c; stroke-width: 2; }
+      .evaluator { fill: #fff3e0; stroke: #f57c00; stroke-width: 2; }
+      .user { fill: #ffebee; stroke: #d32f2f; stroke-width: 2; }
+      .arrow { stroke: #666; stroke-width: 2; marker-end: url(#arrowhead); }
+      .step { fill: #f5f5f5; stroke: #ccc; stroke-width: 1; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+    </marker>
+  </defs>
+  
+  <!-- 标题 -->
+  <text x="600" y="30" text-anchor="middle" class="title">多代理协同工作流程图</text>
+  
+  <!-- 用户 -->
+  <rect x="50" y="60" width="150" height="80" rx="10" class="user"/>
+  <text x="125" y="85" text-anchor="middle" class="subtitle">用户</text>
+  <text x="125" y="105" text-anchor="middle" class="small-text">• 上传简历</text>
+  <text x="125" y="120" text-anchor="middle" class="small-text">• 回答问题</text>
+  <text x="125" y="135" text-anchor="middle" class="small-text">• 查看结果</text>
+  
+  <!-- OrchestratorAgent -->
+  <rect x="250" y="60" width="200" height="80" rx="10" class="orchestrator"/>
+  <text x="350" y="85" text-anchor="middle" class="subtitle">OrchestratorAgent</text>
+  <text x="350" y="105" text-anchor="middle" class="text">协调代理</text>
+  <text x="350" y="120" text-anchor="middle" class="small-text">• 状态管理</text>
+  <text x="350" y="135" text-anchor="middle" class="small-text">• 事件调度</text>
+  
+  <!-- InterviewerAgent -->
+  <rect x="500" y="60" width="200" height="80" rx="10" class="interviewer"/>
+  <text x="600" y="85" text-anchor="middle" class="subtitle">InterviewerAgent</text>
+  <text x="600" y="105" text-anchor="middle" class="text">面试官代理</text>
+  <text x="600" y="120" text-anchor="middle" class="small-text">• 问题生成</text>
+  <text x="600" y="135" text-anchor="middle" class="small-text">• 上下文分析</text>
+  
+  <!-- TopicManagerAgent -->
+  <rect x="750" y="60" width="200" height="80" rx="10" class="topic-manager"/>
+  <text x="850" y="85" text-anchor="middle" class="subtitle">TopicManagerAgent</text>
+  <text x="850" y="105" text-anchor="middle" class="text">话题管理代理</text>
+  <text x="850" y="120" text-anchor="middle" class="small-text">• 话题流转</text>
+  <text x="850" y="135" text-anchor="middle" class="small-text">• 深度控制</text>
+  
+  <!-- EvaluatorAgent -->
+  <rect x="1000" y="60" width="150" height="80" rx="10" class="evaluator"/>
+  <text x="1075" y="85" text-anchor="middle" class="subtitle">EvaluatorAgent</text>
+  <text x="1075" y="105" text-anchor="middle" class="text">评估代理</text>
+  <text x="1075" y="120" text-anchor="middle" class="small-text">• 回答评估</text>
+  <text x="1075" y="135" text-anchor="middle" class="small-text">• 评分反馈</text>
+  
+  <!-- 工作流程步骤 -->
+  <rect x="50" y="180" width="1100" height="650" rx="10" class="step"/>
+  <text x="600" y="210" text-anchor="middle" class="subtitle">详细工作流程</text>
+  
+  <!-- 步骤1：开始面试 -->
+  <rect x="80" y="230" width="200" height="100" rx="8" fill="#e8f5e8" stroke="#388e3c" stroke-width="2"/>
+  <text x="180" y="255" text-anchor="middle" class="text" style="font-weight: bold;">步骤1：开始面试</text>
+  <text x="180" y="275" text-anchor="middle" class="small-text">1. 用户上传简历和职位描述</text>
+  <text x="180" y="290" text-anchor="middle" class="small-text">2. Orchestrator创建面试会话</text>
+  <text x="180" y="305" text-anchor="middle" class="small-text">3. Interviewer生成第一个问题</text>
+  <text x="180" y="320" text-anchor="middle" class="small-text">4. TopicManager确定初始话题</text>
+  
+  <!-- 步骤2：第一轮问答 -->
+  <rect x="320" y="230" width="200" height="100" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="420" y="255" text-anchor="middle" class="text" style="font-weight: bold;">步骤2：第一轮问答</text>
+  <text x="420" y="275" text-anchor="middle" class="small-text">1. 用户回答第一个问题</text>
+  <text x="420" y="290" text-anchor="middle" class="small-text">2. Evaluator评估回答质量</text>
+  <text x="420" y="305" text-anchor="middle" class="small-text">3. Interviewer生成下一个问题</text>
+  <text x="420" y="320" text-anchor="middle" class="small-text">4. TopicManager管理话题流转</text>
+  
+  <!-- 步骤3：多轮问答循环 -->
+  <rect x="560" y="230" width="200" height="100" rx="8" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="660" y="255" text-anchor="middle" class="text" style="font-weight: bold;">步骤3：多轮问答循环</text>
+  <text x="660" y="275" text-anchor="middle" class="small-text">1. 重复问答过程</text>
+  <text x="660" y="290" text-anchor="middle" class="small-text">2. 动态调整问题难度</text>
+  <text x="660" y="305" text-anchor="middle" class="small-text">3. 自然话题转换</text>
+  <text x="660" y="320" text-anchor="middle" class="small-text">4. 实时评估反馈</text>
+  
+  <!-- 步骤4：面试结束 -->
+  <rect x="800" y="230" width="200" height="100" rx="8" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+  <text x="900" y="255" text-anchor="middle" class="text" style="font-weight: bold;">步骤4：面试结束</text>
+  <text x="900" y="275" text-anchor="middle" class="small-text">1. 达到面试时长或问题数量</text>
+  <text x="900" y="290" text-anchor="middle" class="small-text">2. Orchestrator计算最终评分</text>
+  <text x="900" y="305" text-anchor="middle" class="small-text">3. 生成详细面试报告</text>
+  <text x="900" y="320" text-anchor="middle" class="small-text">4. 用户查看评估结果</text>
+  
+  <!-- 代理协同关系图 -->
+  <text x="600" y="370" text-anchor="middle" class="subtitle">代理协同关系</text>
+  
+  <!-- 中心协调器 -->
+  <circle cx="600" cy="420" r="60" class="orchestrator"/>
+  <text x="600" y="425" text-anchor="middle" class="text" style="font-weight: bold;">Orchestrator</text>
+  <text x="600" y="440" text-anchor="middle" class="small-text">协调中心</text>
+  
+  <!-- 四个专业代理 -->
+  <circle cx="400" cy="420" r="50" class="interviewer"/>
+  <text x="400" y="425" text-anchor="middle" class="text" style="font-weight: bold;">Interviewer</text>
+  <text x="400" y="440" text-anchor="middle" class="small-text">问题生成</text>
+  
+  <circle cx="800" cy="420" r="50" class="topic-manager"/>
+  <text x="800" y="425" text-anchor="middle" class="text" style="font-weight: bold;">TopicManager</text>
+  <text x="800" y="440" text-anchor="middle" class="small-text">话题管理</text>
+  
+  <circle cx="600" cy="320" r="50" class="evaluator"/>
+  <text x="600" y="325" text-anchor="middle" class="text" style="font-weight: bold;">Evaluator</text>
+  <text x="600" y="340" text-anchor="middle" class="small-text">评估反馈</text>
+  
+  <!-- 连接线 -->
+  <line x1="550" y1="420" x2="450" y2="420" class="arrow"/>
+  <line x1="650" y1="420" x2="750" y2="420" class="arrow"/>
+  <line x1="600" y1="370" x2="600" y2="370" class="arrow"/>
+  <line x1="400" y1="370" x2="550" y2="370" class="arrow"/>
+  <line x1="800" y1="370" x2="650" y2="370" class="arrow"/>
+  
+  <!-- 数据流说明 -->
+  <rect x="80" y="520" width="1040" height="280" rx="8" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+  <text x="600" y="550" text-anchor="middle" class="subtitle">数据流和状态管理</text>
+  
+  <text x="100" y="580" class="text">📊 数据流：</text>
+  <text x="120" y="600" class="small-text">• 用户输入 → Orchestrator → 专业代理 → 评估结果 → 用户反馈</text>
+  <text x="120" y="620" class="small-text">• 每个代理都有独立的状态管理和数据处理能力</text>
+  <text x="120" y="640" class="small-text">• Orchestrator负责协调代理间的通信和数据同步</text>
+  
+  <text x="100" y="670" class="text">🔄 状态管理：</text>
+  <text x="120" y="690" class="small-text">• 面试会话状态：进行中、暂停、完成</text>
+  <text x="120" y="710" class="small-text">• 代理工作状态：空闲、处理中、完成</text>
+  <text x="120" y="730" class="small-text">• 话题流转状态：当前话题、深度、相关性</text>
+  
+  <text x="100" y="760" class="text">⚡ 实时特性：</text>
+  <text x="120" y="780" class="small-text">• WebSocket/SSE实现实时数据推送</text>
+  <text x="120" y="800" class="small-text">• 代理状态实时更新和可视化</text>
+</svg>

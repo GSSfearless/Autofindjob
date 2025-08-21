@@ -83,7 +83,7 @@ npm run dev
 ```
 
 ### 访问应用
-- 前端应用：http://localhost:5173
+- 前端应用：http://localhost:8080 (WSL环境)
 - 后端API：http://localhost:8000
 - API文档：http://localhost:8000/docs
 
@@ -96,7 +96,7 @@ python test_agents.py
 ```
 
 ### 访问Agent协同演示
-访问 http://localhost:5173/agent-demo 查看多代理协同工作的可视化演示。
+访问 http://localhost:8080/agent-demo 查看多代理协同工作的可视化演示。
 
 ### 测试结果示例
 ```

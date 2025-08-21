@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -44,7 +44,6 @@ const AgentDemo: React.FC = () => {
   const [interviewSteps, setInterviewSteps] = useState<InterviewStep[]>([]);
   const [sessionId, setSessionId] = useState<string>('');
   const [progress, setProgress] = useState(0);
-  const eventSourceRef = useRef<EventSource | null>(null);
 
   // 模拟代理信息
   const mockAgents: AgentInfo[] = [
@@ -58,59 +57,147 @@ const AgentDemo: React.FC = () => {
     setAgents(mockAgents);
   }, []);
 
+  const simulateMockDemo = async (sessionId: string) => {
+    // Mock数据 - 面试开始
+    const startData = {
+      session_id: sessionId,
+      orchestrator: "OrchestratorAgent",
+      action: "interview_started",
+      question: "请介绍一下您的技术背景和经验？",
+      topic: "技术背景",
+      agents_used: ["InterviewerAgent", "TopicManagerAgent"],
+      timestamp: new Date().toISOString()
+    };
+    
+    setCurrentStep(startData);
+    setInterviewSteps([startData]);
+    setProgress(20);
+    
+    // 更新代理状态
+    setAgents(prev => prev.map(agent => ({
+      ...agent,
+      status: startData.agents_used.includes(agent.name) ? 'processing' : 'idle'
+    })));
+
+    // 模拟第一轮问答
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const response1Data = {
+      session_id: sessionId,
+      orchestrator: "OrchestratorAgent",
+      action: "response_evaluated",
+      evaluation: {
+        score: 85,
+        feedback: "回答详细，展现了良好的技术理解能力"
+      },
+      next_question: "您如何处理项目中的技术挑战？",
+      topic: "项目经验",
+      agents_used: ["EvaluatorAgent", "InterviewerAgent", "TopicManagerAgent"],
+      timestamp: new Date().toISOString()
+    };
+    
+    setCurrentStep(response1Data);
+    setInterviewSteps(prev => [...prev, response1Data]);
+    setProgress(45);
+    
+    // 更新代理状态
+    setAgents(prev => prev.map(agent => ({
+      ...agent,
+      status: response1Data.agents_used.includes(agent.name) ? 'processing' : 'idle'
+    })));
+
+    // 模拟第二轮问答
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const response2Data = {
+      session_id: sessionId,
+      orchestrator: "OrchestratorAgent",
+      action: "response_evaluated",
+      evaluation: {
+        score: 92,
+        feedback: "回答非常出色，展现了强大的问题解决能力"
+      },
+      next_question: "请描述一个您解决过的复杂技术问题？",
+      topic: "问题解决",
+      agents_used: ["EvaluatorAgent", "InterviewerAgent", "TopicManagerAgent"],
+      timestamp: new Date().toISOString()
+    };
+    
+    setCurrentStep(response2Data);
+    setInterviewSteps(prev => [...prev, response2Data]);
+    setProgress(70);
+    
+    // 更新代理状态
+    setAgents(prev => prev.map(agent => ({
+      ...agent,
+      status: response2Data.agents_used.includes(agent.name) ? 'processing' : 'idle'
+    })));
+
+    // 模拟第三轮问答
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const response3Data = {
+      session_id: sessionId,
+      orchestrator: "OrchestratorAgent",
+      action: "response_evaluated",
+      evaluation: {
+        score: 88,
+        feedback: "回答全面，展现了良好的技术深度"
+      },
+      next_question: "您如何看待新技术的学习和应用？",
+      topic: "学习能力",
+      agents_used: ["EvaluatorAgent", "InterviewerAgent", "TopicManagerAgent"],
+      timestamp: new Date().toISOString()
+    };
+    
+    setCurrentStep(response3Data);
+    setInterviewSteps(prev => [...prev, response3Data]);
+    setProgress(90);
+    
+    // 更新代理状态
+    setAgents(prev => prev.map(agent => ({
+      ...agent,
+      status: response3Data.agents_used.includes(agent.name) ? 'processing' : 'idle'
+    })));
+
+    // 模拟面试结束
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    const endData = {
+      session_id: sessionId,
+      orchestrator: "OrchestratorAgent",
+      action: "interview_ended",
+      final_score: 88.3,
+      total_questions: 3,
+      responses_count: 3,
+      timestamp: new Date().toISOString()
+    };
+    
+    setCurrentStep(endData);
+    setInterviewSteps(prev => [...prev, endData]);
+    setProgress(100);
+    setIsRunning(false);
+    
+    // 重置代理状态
+    setAgents(prev => prev.map(agent => ({ ...agent, status: 'idle' })));
+  };
+
   const startDemo = async () => {
     setIsRunning(true);
     setInterviewSteps([]);
+    setCurrentStep(null);
     setProgress(0);
     
     // 生成会话ID
     const newSessionId = `demo-${Date.now()}`;
     setSessionId(newSessionId);
 
-    // 创建EventSource连接
-    const eventSource = new EventSource(`http://localhost:8000/api/interview/stream/${newSessionId}`);
-    eventSourceRef.current = eventSource;
-
-    eventSource.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        setCurrentStep(data);
-        setInterviewSteps(prev => [...prev, data]);
-        
-        // 更新代理状态
-        if (data.agents_used) {
-          setAgents(prev => prev.map(agent => ({
-            ...agent,
-            status: data.agents_used.includes(agent.name) ? 'processing' : 'idle'
-          })));
-        }
-
-        // 更新进度
-        if (data.action === 'interview_started') {
-          setProgress(20);
-        } else if (data.action === 'response_evaluated') {
-          setProgress(prev => Math.min(prev + 25, 80));
-        } else if (data.action === 'interview_ended') {
-          setProgress(100);
-          setIsRunning(false);
-          eventSource.close();
-        }
-      } catch (error) {
-        console.error('解析事件数据失败:', error);
-      }
-    };
-
-    eventSource.onerror = (error) => {
-      console.error('EventSource错误:', error);
-      setIsRunning(false);
-    };
+    // 使用Mock数据模拟演示流程
+    await simulateMockDemo(newSessionId);
   };
 
   const stopDemo = () => {
     setIsRunning(false);
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-    }
     setAgents(prev => prev.map(agent => ({ ...agent, status: 'idle' })));
   };
 
