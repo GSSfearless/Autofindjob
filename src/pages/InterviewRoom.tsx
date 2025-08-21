@@ -1,52 +1,24 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Mic, MicOff, Video, VideoOff, MessageSquare, Clock, User, Bot, Loader2, AlertCircle } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Mic, MicOff, Video, VideoOff, MessageSquare, Clock, User, Bot } from "lucide-react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
-import { useInterview } from "@/hooks/useInterview";
 
 const InterviewRoom = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(true);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
-  const navigate = useNavigate();
-  
-  const {
-    session,
-    currentQuestion,
-    isLoading,
-    error,
-    startInterview,
-    submitAnswer,
-    nextQuestion,
-    finishInterview,
-    clearError
-  } = useInterview();
 
-  // Check if we have a session, if not redirect to upload
-  useEffect(() => {
-    console.log('InterviewRoom useEffect - session:', session);
-    console.log('InterviewRoom useEffect - session?.id:', session?.id);
-    console.log('InterviewRoom useEffect - session?.status:', session?.status);
-    
-    if (!session) {
-      console.log('没有session，重定向到upload页面');
-      navigate('/upload');
-    } else if (session.status === 'pending') {
-      console.log('session状态为pending，自动开始面试');
-      // Auto start interview if session is ready
-      startInterview().catch(console.error);
-    } else {
-      console.log('session状态:', session.status);
-    }
-  }, [session, navigate, startInterview]);
-  
-  if (!session) {
-    return <div>加载中...</div>;
-  }
+  const questions = [
+    "请简单介绍一下你自己和你的技术背景",
+    "描述一下你最有挑战性的项目经历",
+    "如何处理项目中的技术难题？",
+    "你如何保持技术技能的更新？",
+    "为什么想要加入我们公司？"
+  ];
 
   // Timer
   useEffect(() => {
@@ -62,39 +34,14 @@ const InterviewRoom = () => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleSubmitAnswer = async () => {
-    if (!currentQuestion) return;
-    
-    try {
-      clearError();
-      await submitAnswer(userAnswer);
+  const handleNextQuestion = () => {
+    if (currentQuestion < questions.length) {
+      setCurrentQuestion(prev => prev + 1);
       setUserAnswer("");
-    } catch (err) {
-      console.error('提交答案失败:', err);
     }
   };
 
-  const handleNextQuestion = async () => {
-    try {
-      clearError();
-      await nextQuestion();
-    } catch (err) {
-      console.error('获取下一问题失败:', err);
-    }
-  };
-
-  const handleFinishInterview = async () => {
-    try {
-      clearError();
-      await finishInterview();
-      navigate('/feedback');
-    } catch (err) {
-      console.error('完成面试失败:', err);
-    }
-  };
-
-  const isLastQuestion = session && currentQuestion && 
-    session.current_question_index >= (session.questions?.length || 1) - 1;
+  const isLastQuestion = currentQuestion === questions.length;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
@@ -109,13 +56,8 @@ const InterviewRoom = () => {
                 AI模拟面试进行中
               </h1>
               <p className="text-muted-foreground">
-                第 {(session?.current_question_index || 0) + 1} 题，共 {session?.questions?.length || 0} 题
+                第 {currentQuestion} 题，共 {questions.length} 题
               </p>
-              {session?.status && (
-                <p className="text-sm text-muted-foreground">
-                  状态：{session.status === 'in_progress' ? '进行中' : session.status}
-                </p>
-              )}
             </div>
             
             <div className="flex items-center gap-4">
@@ -196,27 +138,9 @@ const InterviewRoom = () => {
                   </div>
                   <div>
                     <p className="font-medium text-primary mb-2">AI面试官</p>
-                    {currentQuestion ? (
-                      <div>
-                        <p className="text-lg leading-relaxed mb-2">
-                          {currentQuestion.question}
-                        </p>
-                        {currentQuestion.context && (
-                          <p className="text-sm text-muted-foreground italic">
-                            {currentQuestion.context}
-                          </p>
-                        )}
-                        {currentQuestion.expected_duration && (
-                          <p className="text-xs text-muted-foreground mt-2">
-                            建议回答时间：{Math.floor(currentQuestion.expected_duration / 60)}分钟
-                          </p>
-                        )}
-                      </div>
-                    ) : (
-                      <p className="text-muted-foreground">
-                        {isLoading ? '加载问题中...' : '没有可用的问题'}
-                      </p>
-                    )}
+                    <p className="text-lg leading-relaxed">
+                      {questions[currentQuestion - 1]}
+                    </p>
                   </div>
                 </div>
               </Card>
@@ -228,24 +152,24 @@ const InterviewRoom = () => {
               <Card className="p-6">
                 <h3 className="font-semibold text-primary mb-4">面试进度</h3>
                 <div className="space-y-3">
-                  {session?.questions?.map((_, index) => (
+                  {questions.map((_, index) => (
                     <div key={index} className="flex items-center gap-3">
                       <div className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium ${
-                        index < (session.current_question_index || 0)
+                        index + 1 < currentQuestion 
                           ? 'bg-primary text-primary-foreground' 
-                          : index === (session.current_question_index || 0)
+                          : index + 1 === currentQuestion
                           ? 'bg-primary/20 text-primary border-2 border-primary'
                           : 'bg-muted text-muted-foreground'
                       }`}>
                         {index + 1}
                       </div>
                       <span className={`text-sm ${
-                        index === (session.current_question_index || 0) ? 'font-medium text-primary' : 'text-muted-foreground'
+                        index + 1 === currentQuestion ? 'font-medium text-primary' : 'text-muted-foreground'
                       }`}>
                         问题 {index + 1}
                       </span>
                     </div>
-                  )) || []}
+                  ))}
                 </div>
               </Card>
 
@@ -263,59 +187,23 @@ const InterviewRoom = () => {
                 />
               </Card>
 
-              {/* Error Display */}
-              {error && (
-                <Alert variant="destructive" className="mb-4">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
-
               {/* Actions */}
               <div className="space-y-3">
                 <Button 
-                  onClick={handleSubmitAnswer}
-                  disabled={!userAnswer.trim() || isLoading}
-                  className="w-full"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-                      处理中...
-                    </>
-                  ) : (
-                    '提交答案'
-                  )}
-                </Button>
-                
-                <Button 
                   onClick={handleNextQuestion}
-                  disabled={isLastQuestion || isLoading}
-                  variant="outline"
+                  disabled={isLastQuestion}
                   className="w-full"
                 >
                   {isLastQuestion ? "已是最后一题" : "下一题"}
                 </Button>
                 
                 {isLastQuestion && (
-                  <Button 
-                    onClick={handleFinishInterview}
-                    disabled={isLoading}
-                    variant="hero" 
-                    className="w-full"
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-                        处理中...
-                      </>
-                    ) : (
-                      '完成面试，查看反馈'
-                    )}
+                  <Button asChild variant="hero" className="w-full">
+                    <Link to="/feedback">完成面试，查看反馈</Link>
                   </Button>
                 )}
                 
-                <Button variant="outline" className="w-full" asChild>
+                <Button variant="outline" className="w-full">
                   <Link to="/feedback">查看实时反馈</Link>
                 </Button>
               </div>
