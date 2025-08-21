@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   const benefits = [
@@ -31,9 +32,11 @@ const CTASection = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-up" style={{ animationDelay: '0.7s' }}>
-            <Button variant="hero" size="lg" className="bg-white text-primary hover:bg-white/95 shadow-xl group">
-              立即开始免费体验
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <Button asChild variant="hero" size="lg" className="bg-white text-primary hover:bg-white/95 shadow-xl group">
+              <Link to="/upload">
+                立即开始免费体验
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </Button>
             <Button variant="outline" size="lg" className="border-primary/30 text-primary hover:bg-white/10">
               预约产品演示

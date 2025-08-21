@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -16,9 +17,9 @@ const Header = () => {
           
           {/* Navigation - Hidden on mobile */}
           <nav className="hidden md:flex items-center gap-8">
+            <Link to="/upload" className="text-foreground/80 hover:text-primary transition-colors">开始面试</Link>
             <a href="#features" className="text-foreground/80 hover:text-primary transition-colors">功能特色</a>
             <a href="#process" className="text-foreground/80 hover:text-primary transition-colors">使用流程</a>
-            <a href="#pricing" className="text-foreground/80 hover:text-primary transition-colors">价格方案</a>
             <a href="#about" className="text-foreground/80 hover:text-primary transition-colors">关于我们</a>
           </nav>
           
@@ -27,8 +28,8 @@ const Header = () => {
             <Button variant="ghost" className="hidden sm:inline-flex">
               登录
             </Button>
-            <Button variant="default">
-              开始体验
+            <Button asChild variant="default">
+              <Link to="/upload">开始体验</Link>
             </Button>
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="w-5 h-5" />
