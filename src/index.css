@@ -9,34 +9,53 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 8%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 0% 8%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 8%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 8%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
+    --ring: 0 0% 8%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+
+    /* Brand Colors - Inspired by uploaded images */
+    --brand-pink: 331 78% 87%;
+    --brand-green: 134 100% 85%;
+    --brand-blue: 194 100% 78%;
+    --brand-purple: 269 73% 85%;
+    
+    /* Gradients */
+    --gradient-pink: linear-gradient(135deg, hsl(331 78% 87%), hsl(331 78% 93%));
+    --gradient-green: linear-gradient(135deg, hsl(134 100% 85%), hsl(134 100% 91%));
+    --gradient-blue: linear-gradient(135deg, hsl(194 100% 78%), hsl(194 100% 84%));
+    --gradient-purple: linear-gradient(135deg, hsl(269 73% 85%), hsl(269 73% 91%));
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsla(0, 0%, 0%, 0.1);
+    --shadow-medium: 0 8px 30px -6px hsla(0, 0%, 0%, 0.15);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
