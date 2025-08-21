@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简历上传测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        textarea { height: 200px; resize: vertical; }
+        button { padding: 12px 24px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .result { margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 4px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>AI面试系统 - 简历上传测试</h1>
+    
+    <form id="uploadForm">
+        <div class="form-group">
+            <label for="resume">上传简历文件:</label>
+            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="jobDescription">职位描述:</label>
+            <textarea id="jobDescription" name="jobDescription" placeholder="请输入目标职位的详细描述..." required>高级前端工程师岗位，要求5年以上经验，精通React、TypeScript，负责大型电商平台开发，需要有微前端架构经验，熟悉性能优化。</textarea>
+        </div>
+        
+        <button type="submit">开始AI面试</button>
+    </form>
+    
+    <div id="result" class="result" style="display: none;"></div>
+    
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            const resumeFile = document.getElementById('resume').files[0];
+            const jobDescription = document.getElementById('jobDescription').value;
+            
+            if (!resumeFile) {
+                alert('请选择简历文件');
+                return;
+            }
+            
+            formData.append('resume_file', resumeFile);
+            formData.append('job_description', jobDescription);
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = '正在处理...';
+            
+            try {
+                // 第一步：上传简历和分析
+                const uploadResponse = await fetch('http://localhost:8000/api/upload/resume', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const uploadResult = await uploadResponse.json();
+                
+                if (!uploadResult.success) {
+                    throw new Error(uploadResult.message || '上传失败');
+                }
+                
+                resultDiv.textContent = '文件上传成功，正在创建面试会话...';
+                
+                // 第二步：创建面试会话
+                const sessionResponse = await fetch('http://localhost:8000/api/interview/create-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        resume_analysis: uploadResult.data.resume_analysis,
+                        job_analysis: uploadResult.data.job_analysis,
+                        question_count: 5
+                    })
+                });
+                
+                const sessionResult = await sessionResponse.json();
+                
+                if (!sessionResult.success) {
+                    throw new Error(sessionResult.message || '创建会话失败');
+                }
+                
+                // 显示结果
+                resultDiv.innerHTML = `
+                    <h3>✅ 处理成功！</h3>
+                    <p><strong>会话ID:</strong> ${sessionResult.data.id}</p>
+                    <p><strong>生成问题数:</strong> ${sessionResult.data.questions.length}</p>
+                    <h4>生成的面试问题:</h4>
+                    ${sessionResult.data.questions.map((q, i) => 
+                        `<p><strong>${i+1}.</strong> ${q.question.replace(/"/g, '')}</p>`
+                    ).join('')}
+                    
+                    <h4>简历分析结果:</h4>
+                    <pre>${JSON.stringify(uploadResult.data.resume_analysis, null, 2)}</pre>
+                    
+                    <h4>职位分析结果:</h4>
+                    <pre>${JSON.stringify(uploadResult.data.job_analysis, null, 2)}</pre>
+                    
+                    <p><strong>下一步:</strong> 您可以在浏览器中打开 <a href="http://localhost:8080/interview" target="_blank">http://localhost:8080/interview</a> 开始面试</p>
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>❌ 处理失败</h3>
+                    <p><strong>错误信息:</strong> ${error.message}</p>
+                    <p><strong>建议:</strong> 请检查文件格式和后端服务状态</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
