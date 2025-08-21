@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Mic, MicOff, Video, VideoOff, MessageSquare, Clock, User, Bot, Loader2, AlertCircle } from "lucide-react";
+import { Mic, MicOff, Video, VideoOff, MessageSquare, Clock, User, Bot, Loader2, AlertCircle, TestTube } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Header from "@/components/Header";
@@ -13,6 +13,9 @@ const InterviewRoom = () => {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const navigate = useNavigate();
+  
+  // Mock模式标识
+  const isMockMode = true;
   
   const {
     session,
@@ -99,6 +102,18 @@ const InterviewRoom = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
       <Header />
+      
+      {/* Mock模式标识 */}
+      {isMockMode && (
+        <div className="fixed top-20 right-4 z-50">
+          <Alert className="bg-yellow-50 border-yellow-200">
+            <TestTube className="h-4 w-4 text-yellow-600" />
+            <AlertDescription className="text-yellow-800 font-medium">
+              🧪 Mock测试模式
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
       
       <main className="container mx-auto px-6 py-8">
         <div className="max-w-6xl mx-auto">

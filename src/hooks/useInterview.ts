@@ -1,5 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { apiService, InterviewSession, InterviewQuestion } from '../services/api';
+import { mockApiService } from '../services/mockApi';
+
+// 开发模式开关 - 设置为true使用mock数据
+const USE_MOCK_API = true;
+
+// 根据开关选择API服务
+const currentApiService = USE_MOCK_API ? mockApiService : apiService;
 
 export interface InterviewState {
   session: InterviewSession | null;
@@ -35,7 +42,7 @@ export const useInterview = (): InterviewState & InterviewActions => {
   useEffect(() => {
     // 检查后端连接
     const checkConnection = async () => {
-      const connected = await apiService.healthCheck();
+      const connected = await currentApiService.healthCheck();
       setIsConnected(connected);
     };
 
@@ -49,7 +56,7 @@ export const useInterview = (): InterviewState & InterviewActions => {
     // 建立WebSocket连接
     if (session?.id && !wsRef.current) {
       try {
-        const ws = apiService.createWebSocket(session.id);
+        const ws = currentApiService.createWebSocket(session.id);
         
         ws.onopen = () => {
           console.log('WebSocket连接已建立');
@@ -133,7 +140,7 @@ export const useInterview = (): InterviewState & InterviewActions => {
       console.log('开始上传文件和分析...');
       
       // 上传文件并分析
-      const uploadResponse = await apiService.uploadResumeAndJD(file, jobDescription);
+      const uploadResponse = await currentApiService.uploadResumeAndJD(file, jobDescription);
       console.log('文件上传响应:', uploadResponse);
       
       if (!uploadResponse.success) {
@@ -143,7 +150,7 @@ export const useInterview = (): InterviewState & InterviewActions => {
       console.log('开始创建面试会话...');
       
       // 创建面试会话
-      const sessionResponse = await apiService.createInterviewSession(
+      const sessionResponse = await currentApiService.createInterviewSession(
         uploadResponse.data.resume_analysis,
         uploadResponse.data.job_analysis,
         5 // 默认5个问题
@@ -189,7 +196,7 @@ export const useInterview = (): InterviewState & InterviewActions => {
     setError(null);
 
     try {
-      const response = await apiService.startInterview(session.id);
+      const response = await currentApiService.startInterview(session.id);
       
       if (!response.success) {
         throw new Error(response.message);
@@ -230,7 +237,7 @@ export const useInterview = (): InterviewState & InterviewActions => {
     setError(null);
 
     try {
-      const response = await apiService.submitAnswer(
+      const response = await currentApiService.submitAnswer(
         session.id,
         currentQuestion.id,
         answerText,
@@ -268,7 +275,7 @@ export const useInterview = (): InterviewState & InterviewActions => {
     setError(null);
 
     try {
-      const response = await apiService.getNextQuestion(session.id);
+      const response = await currentApiService.getNextQuestion(session.id);
       
       if (!response.success) {
         // 可能是面试结束
@@ -306,7 +313,7 @@ export const useInterview = (): InterviewState & InterviewActions => {
     setError(null);
 
     try {
-      const response = await apiService.finishInterview(session.id);
+      const response = await currentApiService.finishInterview(session.id);
       
       if (response.success && response.data?.session) {
         setSession(response.data.session);
